@@ -9,11 +9,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AuthorRepositoryIntegrationTests {
+public class AuthorEntityRepositoryIntegrationTests {
     private AuthorRepository underTest;
 
     @Autowired
-    public AuthorRepositoryIntegrationTests(AuthorRepository underTest) {
+    public AuthorEntityRepositoryIntegrationTests(AuthorRepository underTest) {
         this.underTest = underTest;
     }
 }

@@ -9,12 +9,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class BookRepositoryIntegrationTests {
+public class BookEntityRepositoryIntegrationTests {
     private BookRepository underTest;
     private AuthorRepository authorRepository;
 
     @Autowired
-    public BookRepositoryIntegrationTests(BookRepository underTest, AuthorRepository authorRepository) {
+    public BookEntityRepositoryIntegrationTests(BookRepository underTest, AuthorRepository authorRepository) {
         this.underTest = underTest;
         this.authorRepository = authorRepository;
     }
