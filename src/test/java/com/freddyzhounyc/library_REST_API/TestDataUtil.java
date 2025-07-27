@@ -1,5 +1,4 @@
-package com.freddyzhounyc.databaseDemo;
-
+package com.freddyzhounyc.library_REST_API;
 
 import com.freddyzhounyc.library_REST_API.domain.entities.AuthorEntity;
 import com.freddyzhounyc.library_REST_API.domain.entities.BookEntity;
