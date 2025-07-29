@@ -1,9 +1,10 @@
 package com.freddyzhounyc.library_REST_API.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freddyzhounyc.library_REST_API.TestDataUtil;
 import com.freddyzhounyc.library_REST_API.domain.dto.AuthorDto;
+import com.freddyzhounyc.library_REST_API.domain.entities.AuthorEntity;
+import com.freddyzhounyc.library_REST_API.services.AuthorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class AuthorControllerIntegrationTests {
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
+    private AuthorService authorService;
 
     @Autowired
-    public AuthorControllerIntegrationTests(MockMvc mockMvc) {
+    public AuthorControllerIntegrationTests(MockMvc mockMvc, AuthorService authorService) {
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
+        this.authorService = authorService;
     }
 
     @Test
@@ -58,6 +61,30 @@ public class AuthorControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.name").value(testAuthorA.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.age").value(testAuthorA.getAge())
+        );
+    }
+    @Test
+    public void testThatListAuthorsReturnsHttpStatus200() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+    @Test
+    public void testThatListAuthorsReturnsListOfAuthors() throws Exception {
+        AuthorEntity author = TestDataUtil.createTestAuthorA();
+        authorService.createAuthor(author);
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].name").value(author.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].age").value(author.getAge())
         );
     }
 }
