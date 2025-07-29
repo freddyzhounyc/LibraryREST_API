@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freddyzhounyc.library_REST_API.TestDataUtil;
 import com.freddyzhounyc.library_REST_API.domain.dto.AuthorDto;
-import com.freddyzhounyc.library_REST_API.domain.entities.AuthorEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

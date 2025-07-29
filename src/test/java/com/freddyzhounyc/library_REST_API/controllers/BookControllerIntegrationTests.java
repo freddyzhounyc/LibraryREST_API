@@ -26,13 +26,13 @@ public class BookControllerIntegrationTests {
         this.mockMvc = mockMvc;
     }
 
-//    @Test
-//    public void testThatCreateBookSuccessfullyReturns201Created() {
-//        AuthorEntity author = TestDataUtil.createTestAuthorA();
-//        BookEntity book = TestDataUtil.createTestBookA(author);
-//        mockMvc.perform(
-//                MockMvcRequestBuilders.
-//        )
-//    }
+    @Test
+    public void testThatCreateBookSuccessfullyReturns201Created() {
+        AuthorEntity author = TestDataUtil.createTestAuthorA();
+        BookEntity book = TestDataUtil.createTestBookA(author);
+        mockMvc.perform(
+                MockMvcRequestBuilders.
+        )
+    }
 
 }
