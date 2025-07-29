@@ -32,6 +32,7 @@ public class AuthorController {
         return new ResponseEntity<>(authorMapper.mapTo(savedAuthorEntity), HttpStatus.CREATED);
     }
 
+    // ** CHANCE TO USE PAGINATION LATER ON **
     @GetMapping(path = "/authors")
     public List<AuthorDto> listAuthors() {
         List<AuthorEntity> result = authorService.findAll();
