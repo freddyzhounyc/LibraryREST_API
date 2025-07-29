@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freddyzhounyc.library_REST_API.TestDataUtil;
 import com.freddyzhounyc.library_REST_API.domain.dto.AuthorDto;
 import com.freddyzhounyc.library_REST_API.domain.dto.BookDto;
+import com.freddyzhounyc.library_REST_API.domain.entities.BookEntity;
+import com.freddyzhounyc.library_REST_API.services.BookService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,12 @@ public class BookControllerIntegrationTests {
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
+    private BookService bookService;
 
     @Autowired
-    public BookControllerIntegrationTests(MockMvc mockMvc) {
+    public BookControllerIntegrationTests(MockMvc mockMvc, BookService bookService) {
         this.mockMvc = mockMvc;
+        this.bookService = bookService;
         this.objectMapper = new ObjectMapper();
     }
 
@@ -56,6 +60,26 @@ public class BookControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.isbn").value(book.getIsbn())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.title").value(book.getTitle())
+        );
+    }
+    @Test
+    public void testThatListBooksReturnsHttpStatus200() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    @Test
+    public void testThatListBookReturnsListOfBooks() throws Exception {
+        BookEntity book = TestDataUtil.createTestBookA(null);
+        bookService.createBook(book.getIsbn(), book);
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].isbn").value(book.getIsbn())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].title").value(book.getTitle())
         );
     }
 
