@@ -1,5 +1,7 @@
 package com.freddyzhounyc.library_REST_API;
 
+import com.freddyzhounyc.library_REST_API.domain.dto.AuthorDto;
+import com.freddyzhounyc.library_REST_API.domain.dto.BookDto;
 import com.freddyzhounyc.library_REST_API.domain.entities.AuthorEntity;
 import com.freddyzhounyc.library_REST_API.domain.entities.BookEntity;
 
@@ -9,6 +11,13 @@ public final class TestDataUtil {
 
     public static AuthorEntity createTestAuthorA() {
         return AuthorEntity.builder()
+                //.id(1L)
+                .name("Abigail Rose")
+                .age(80)
+                .build();
+    }
+    public static AuthorDto createTestAuthorDtoA() {
+        return AuthorDto.builder()
                 //.id(1L)
                 .name("Abigail Rose")
                 .age(80)
@@ -34,6 +43,13 @@ public final class TestDataUtil {
                 .isbn("978-1-2345-6789-0")
                 .title("The Shadow in the Attic")
                 .authorEntity(authorEntity)
+                .build();
+    }
+    public static BookDto createTestBookA(final AuthorDto authorDto) {
+        return BookDto.builder()
+                .isbn("978-1-2345-6789-0")
+                .title("The Shadow in the Attic")
+                .author(authorDto)
                 .build();
     }
     public static BookEntity createTestBookB(final AuthorEntity authorEntity) {

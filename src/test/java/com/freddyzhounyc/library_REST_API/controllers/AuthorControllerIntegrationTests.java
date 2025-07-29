@@ -3,6 +3,7 @@ package com.freddyzhounyc.library_REST_API.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freddyzhounyc.library_REST_API.TestDataUtil;
+import com.freddyzhounyc.library_REST_API.domain.dto.AuthorDto;
 import com.freddyzhounyc.library_REST_API.domain.entities.AuthorEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +33,7 @@ public class AuthorControllerIntegrationTests {
 
     @Test
     public void testThatCreateAuthorSuccessfullyReturnsHttp201Created() throws Exception {
-        AuthorEntity testAuthorA = TestDataUtil.createTestAuthorA();
+        AuthorDto testAuthorA = TestDataUtil.createTestAuthorDtoA();
         String json = objectMapper.writeValueAsString(testAuthorA);
 
         mockMvc.perform(
@@ -45,7 +46,7 @@ public class AuthorControllerIntegrationTests {
     }
     @Test
     public void testThatCreateAuthorSuccessfullyReturnsSavedAuthor() throws Exception {
-        AuthorEntity testAuthorA = TestDataUtil.createTestAuthorA();
+        AuthorDto testAuthorA = TestDataUtil.createTestAuthorDtoA();
         String json = objectMapper.writeValueAsString(testAuthorA);
 
         mockMvc.perform(
