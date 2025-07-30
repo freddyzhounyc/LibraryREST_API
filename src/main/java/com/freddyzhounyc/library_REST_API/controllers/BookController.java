@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,13 +29,20 @@ public class BookController {
         BookEntity savedBook = bookService.createBook(isbn, bookEntity);
         return new ResponseEntity<>(bookMapper.mapTo(savedBook), HttpStatus.CREATED);
     }
-
     // ** CHANCE TO USE PAGINATION LATER ON **
     @GetMapping(path = "/books")
     public List<BookDto> listBooks() {
         return bookService.findAll().stream()
                 .map(bookMapper::mapTo)
                 .collect(Collectors.toList());
+    }
+    @GetMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {
+        Optional<BookEntity> result = bookService.findOne(isbn);
+        return result.map(bookEntity -> {
+            BookDto bookDto = bookMapper.mapTo(bookEntity);
+            return new ResponseEntity<>(bookDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }

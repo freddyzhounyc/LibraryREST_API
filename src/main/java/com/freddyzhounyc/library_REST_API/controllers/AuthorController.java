@@ -6,12 +6,10 @@ import com.freddyzhounyc.library_REST_API.mappers.Mapper;
 import com.freddyzhounyc.library_REST_API.services.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,7 +29,6 @@ public class AuthorController {
         AuthorEntity savedAuthorEntity = authorService.createAuthor(authorEntity);
         return new ResponseEntity<>(authorMapper.mapTo(savedAuthorEntity), HttpStatus.CREATED);
     }
-
     // ** CHANCE TO USE PAGINATION LATER ON **
     @GetMapping(path = "/authors")
     public List<AuthorDto> listAuthors() {
@@ -39,6 +36,14 @@ public class AuthorController {
         return result.stream()
                 .map(authorMapper::mapTo)
                 .collect(Collectors.toList());
+    }
+    @GetMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDto> getAuthor(@PathVariable("id") Long id) {
+        Optional<AuthorEntity> result = authorService.findOne(id);
+        return result.map(authorEntity -> {
+                    AuthorDto authorDto = authorMapper.mapTo(authorEntity);
+                    return new ResponseEntity<>(authorDto, HttpStatus.OK);
+                }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }
