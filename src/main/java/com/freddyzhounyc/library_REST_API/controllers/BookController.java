@@ -24,10 +24,15 @@ public class BookController {
     }
 
     @PutMapping(path = "/books/{isbn}")
-    public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto book) {
+    public ResponseEntity<BookDto> createUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto book) {
         BookEntity bookEntity = bookMapper.mapFrom(book);
-        BookEntity savedBook = bookService.createBook(isbn, bookEntity);
-        return new ResponseEntity<>(bookMapper.mapTo(savedBook), HttpStatus.CREATED);
+        boolean bookExists = bookService.isExists(isbn);
+        BookEntity savedBook = bookService.createUpdateBook(isbn, bookEntity);
+        BookDto returnBook = bookMapper.mapTo(savedBook);
+        if (bookExists)
+            return new ResponseEntity<>(returnBook, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(returnBook, HttpStatus.CREATED);
     }
     // ** CHANCE TO USE PAGINATION LATER ON **
     @GetMapping(path = "/books")

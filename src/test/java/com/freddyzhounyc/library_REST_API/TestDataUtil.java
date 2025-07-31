@@ -66,6 +66,13 @@ public final class TestDataUtil {
                 .authorEntity(authorEntity)
                 .build();
     }
+    public static BookDto createTestBookDtoB(final AuthorDto authorDto) {
+        return BookDto.builder()
+                .isbn("978-1-2345-6789-1")
+                .title("Beyond the Horizon")
+                .author(authorDto)
+                .build();
+    }
     public static BookEntity createTestBookC(final AuthorEntity authorEntity) {
         return BookEntity.builder()
                 .isbn("978-1-2345-6789-2")
