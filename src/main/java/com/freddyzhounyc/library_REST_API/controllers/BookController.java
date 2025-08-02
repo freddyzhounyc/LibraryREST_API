@@ -4,6 +4,8 @@ import com.freddyzhounyc.library_REST_API.domain.dto.BookDto;
 import com.freddyzhounyc.library_REST_API.domain.entities.BookEntity;
 import com.freddyzhounyc.library_REST_API.mappers.Mapper;
 import com.freddyzhounyc.library_REST_API.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +36,10 @@ public class BookController {
         else
             return new ResponseEntity<>(returnBook, HttpStatus.CREATED);
     }
-    // ** CHANCE TO USE PAGINATION LATER ON **
     @GetMapping(path = "/books")
-    public List<BookDto> listBooks() {
-        return bookService.findAll().stream()
-                .map(bookMapper::mapTo)
-                .collect(Collectors.toList());
+    public Page<BookDto> listBooks(Pageable pageable) {
+        Page<BookEntity> books = bookService.findAll(pageable);
+        return books.map(bookMapper::mapTo);
     }
     @GetMapping(path = "/books/{isbn}")
     public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {
