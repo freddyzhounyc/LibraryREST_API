@@ -57,5 +57,10 @@ public class BookController {
         BookEntity updatedBook = bookService.partialUpdate(isbn, book);
         return new ResponseEntity<>(bookMapper.mapTo(updatedBook), HttpStatus.OK);
     }
+    @DeleteMapping(path = "/books/{isbn}")
+    public ResponseEntity deleteBook(@PathVariable("isbn") String isbn) {
+        bookService.delete(isbn);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
 }
